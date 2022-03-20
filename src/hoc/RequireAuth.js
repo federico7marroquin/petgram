@@ -8,7 +8,7 @@ export function RequireAuth({ children }){
     const { isAuth } = Context.useAuth()    
 
     if(!isAuth){
-        return <Navigate to="/register" state={{ from: location}} replace /> 
+        return <Navigate to="/login" state={{ from: location}} replace /> 
     }else {
         return children
     }

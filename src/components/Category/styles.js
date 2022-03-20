@@ -12,7 +12,7 @@ export const Link = styled(LinkRouter)`
 `
 
 export const Image = styled.img`
-    border: 2px solid #cd212166;
+    border: 2px solid ${props => props.theme.orange};
     box-shadow: 0px 10px 14px rgba(0, 0, 0, .2);
     border-radius: 50%;
     height: auto;
