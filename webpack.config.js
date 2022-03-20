@@ -6,7 +6,14 @@ module.exports = {
     //output second beer
     output: {
         filename: 'app.bundle.js',
+        publicPath: '/'
     },
+    devServer: {
+        historyApiFallback: {
+          disableDotRule: true
+        },
+        liveReload: true
+      },
     //Loaders third beer
     module: {
         rules: [

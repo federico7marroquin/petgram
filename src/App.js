@@ -1,23 +1,32 @@
 import { Logo } from './components/Logo'
-import { ListOfCategories } from './components/ListOfCategories'
 import { GlobalStyle } from './styles/GlobalStyles'
-import { ListOfPhotoCards } from './containers/ListOfPhotoCards'
-import { PhotoCardWithQuery } from './containers/PhotoCardWithQuery'
+import { Detail } from './pages/Detail'
+import { Home } from './pages/Home'
+import { Favs } from './pages/Favs'
+import { User } from './pages/User'
+import { NotRegisterUser } from './pages/NotRegisterUser'
+import { BrowserRouter, Routes, Route  } from 'react-router-dom'
+import { NavBar } from './components/Navbar'
+import { RequireAuth } from './hoc/RequireAuth'
+
 export const App = () => {
-  const urlParams = new window.URLSearchParams(window.location.search)
-  const detailId = urlParams.get('detail')
+
   return (
     <div>
       <GlobalStyle />
-      <Logo />{
-        detailId ?
-          <PhotoCardWithQuery id={detailId}/>
-          :
-          <>
-            <ListOfCategories />
-            <ListOfPhotoCards categoryId={1} />
-          </>
-      }
+      <BrowserRouter>
+        <Logo />{
+          <Routes>
+            <Route exact path='/' element={<Home />} />
+            <Route path='/pet/:id' element={<Home />} />
+            <Route path='/detail/:id' element={<Detail />} />
+            <Route path='/favs' element={<RequireAuth><Favs/></RequireAuth>}/>
+            <Route path='/user' element={<RequireAuth><User/></RequireAuth>} />
+            <Route path='/register' element={<NotRegisterUser />} />
+          </Routes>
+        }
+        <NavBar />
+      </BrowserRouter>
     </div>
   )
 }

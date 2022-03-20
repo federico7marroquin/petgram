@@ -1,35 +1,41 @@
 import PropTypes from 'prop-types'
-import { Img, Picture, Article, Button } from './styles'
-import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
+import { Img, Picture, Article } from './styles'
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
-
+import { FavButton } from '../FavButton'
+import { useLikeMutation } from '../../hooks/useLikeMutation'
+import { Link } from 'react-router-dom'
 const DEFAULT_IMAGE =
   'https://res.cloudinary.com/midudev/image/upload/w_300/q_80/v1560262103/dogs.png'
 
 
 
-export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE}) => {
-  
+export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
+
   const key = `like-${id}`
   const [liked, setLocalStorage] = useLocalStorage(key, false)
   const [elementContainer, isIntersected] = useIntersectionObserver()
+  const [toggleLike] = useLikeMutation()
 
-  const Icon = liked ? MdFavorite : MdFavoriteBorder
+  const handleFavClick = () => {
+    !liked && toggleLike({
+      variables: {
+        input: { id }
+      }
+    })
+    setLocalStorage(!liked)
+  }
 
   return (
     <Article ref={elementContainer}>
       {isIntersected && (
         <>
-          <a href={`/?detail=${id}`}>
+          <Link to={`/detail/${id}`}>
             <Picture>
               <Img src={src} />
             </Picture>
-          </a>
-          <Button onClick={setLocalStorage}>
-            <Icon size="25px" />
-            {likes} likes!
-          </Button>
+          </Link>
+          <FavButton liked={liked} likes={likes} onClick={handleFavClick} />
         </>
       )}
     </Article>

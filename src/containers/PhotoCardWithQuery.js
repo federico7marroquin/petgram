@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 
 export const PhotoCardWithQuery = ({ id }) => {
 
-    const { data, error, loading } = useGetSinglePhoto(id)
+    const { data = { photo: {} }, error, loading } = useGetSinglePhoto(id)
     const { photo = {}} = data
+    
     if (error) {
         return <h2>Internal Server Error</h2>
     }
