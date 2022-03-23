@@ -1,31 +1,39 @@
 import PropTypes from 'prop-types'
 import { useInputValue } from '../../hooks/useInputValue'
-import { Button, Form, Input, P, Main, Link } from './styles'
+import { Form, Input, P, Main, Link, Error } from './styles'
+import { SubmitButton } from '../SubmitButton'
 
-
-export const UserForm = ({ onSubmit, signIn }) => {
+export const UserForm = ({ onSubmit, signIn, error, disabled }) => {
 
     const [email, setEmail] = useInputValue('')
     const [password, setPassword] = useInputValue('')
 
+    const register = (e) => {
+        e.preventDefault();
+        onSubmit({ email, password })
+    }
+
     return (
         <Main>
             <h2>{signIn ? 'Sign in' : 'Sign up'}</h2>
-            <Form onSubmit={onSubmit}>
+            <Form disabled={disabled} onSubmit={register}>
                 <Input
+                    disabled={disabled}
                     placeholder="Email"
                     value={email}
                     onChange={setEmail}
                 />
                 <Input
+                    disabled={disabled}
                     placeholder="Password"
                     type='password'
                     value={password}
                     onChange={setPassword}
 
                 />
-                <Button>{signIn ? 'Sign in' : 'Sign up'}</Button>
+                <SubmitButton disabled={disabled} >{signIn ? 'Sign in' : 'Sign up'}</SubmitButton>
             </Form>
+            {error && <Error> {error}</Error>}
             <P>
                 {signIn ? 'You are not registered? ' : 'You are already registered? '}
                 <Link to={signIn ? '/register' : '/login'}>
@@ -40,4 +48,6 @@ export const UserForm = ({ onSubmit, signIn }) => {
 UserForm.propTypes = {
     onSubmit: PropTypes.func,
     signIn: PropTypes.bool,
+    error: PropTypes.string || PropTypes.bool,
+    disabled: PropTypes.bool
 }

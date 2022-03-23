@@ -1,6 +1,8 @@
 import { RegisterContainer } from '../containers/RegisterContainer' 
 
-export const Register = () => {
+const Register = () => {
     return <RegisterContainer />
 
 }
+
+export default Register

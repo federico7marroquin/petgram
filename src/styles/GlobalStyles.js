@@ -4,7 +4,6 @@ export const GlobalStyle = createGlobalStyle`
     html {
         html {
                 box-sizing: border-box;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         
         *, *::before, *::after {
@@ -33,6 +32,8 @@ export const GlobalStyle = createGlobalStyle`
                 max-width: 500px;
                 overscroll-behavior: none;
                 width: 100%;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
         }
 
         #app {

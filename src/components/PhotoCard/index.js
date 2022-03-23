@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { Img, Picture, Article } from './styles'
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
-import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { FavButton } from '../FavButton'
 import { useLikeMutation } from '../../hooks/useLikeMutation'
 import { Link } from 'react-router-dom'
@@ -10,20 +9,17 @@ const DEFAULT_IMAGE =
 
 
 
-export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
+export const PhotoCard = ({ id, liked, likes = 0, src = DEFAULT_IMAGE }) => {
 
-  const key = `like-${id}`
-  const [liked, setLocalStorage] = useLocalStorage(key, false)
   const [elementContainer, isIntersected] = useIntersectionObserver()
   const [toggleLike] = useLikeMutation()
 
   const handleFavClick = () => {
-    !liked && toggleLike({
+    toggleLike({
       variables: {
         input: { id }
       }
     })
-    setLocalStorage(!liked)
   }
 
   return (
@@ -43,7 +39,16 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
 }
 
 PhotoCard.propTypes = {
-  likes: PropTypes.number,
-  src: PropTypes.string,
-  id: PropTypes.string,
+  likes: function(props, propName){
+    const propValue = props[propName]
+    if(propValue === undefined) {
+      return new Error(`${propName} Value must be defined`)
+    }
+    if(propValue < 0) {
+      return new Error(`${propName} value must be greater than 0`)
+    }
+  },
+  src: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  liked: PropTypes.bool.isRequired,
 }

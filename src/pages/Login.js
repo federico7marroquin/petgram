@@ -1,5 +1,7 @@
 import { LoginContainer } from '../containers/LoginContainer';
 
-export const Login = () => {
+const Login = () => {
     return <LoginContainer />
 }
+
+export default Login

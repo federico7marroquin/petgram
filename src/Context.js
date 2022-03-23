@@ -1,15 +1,25 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { useContext } from 'react/cjs/react.development'
 
 const Context = createContext()
 
 const Provider = ({ children }) => {
-    const [isAuth, setIsAuth] = useState(false)
+    const [isAuth, setIsAuth] = useState(() => {
+        return window.localStorage.getItem('token')
+    })
+
+
 
     const value = {
         isAuth,
-        activateAuth: () => setIsAuth(true)
+        activateAuth: token => {
+            setIsAuth(true)
+            window.localStorage.setItem('token', token)
+        },
+        removeAuth: () => {
+            setIsAuth(false)
+            window.localStorage.removeItem('token')
+        }
     }
     return (
         <Context.Provider value={value}>
@@ -26,10 +36,10 @@ Provider.propTypes = {
 function useAuth() {
     const context = useContext(Context)
     if (context === undefined) {
-        throw new Error('useCount must be used within a Provider')
-      }
-      return context
+        throw new Error('useContext must be used within a Provider')
+    }
+    return context
 }
 
 
-export default { Provider, useAuth}
+export default { Provider, useAuth }

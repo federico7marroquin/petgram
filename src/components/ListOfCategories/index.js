@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Category } from '../Category'
 import { List, Item } from './styles'
 import { useFetchData } from '../../hooks/useFetchData'
+
 const CATEGORIES_URL = 'https://petgram-fede-server.vercel.app/categories'
 
 
-export const ListOfCategories = () => {
+ const ListOfCategoriesComponent = () => {
   const { result: categories, loading } = useFetchData(CATEGORIES_URL)
   const [showFixed, setShowFixed] = useState(false)
 
@@ -42,3 +43,6 @@ export const ListOfCategories = () => {
     </>
   )
 }
+
+
+export const ListOfCategories = React.memo(ListOfCategoriesComponent)
